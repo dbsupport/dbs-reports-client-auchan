@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+    <!-- Plik zawiera definicje kontekstu uzywanego przez podprojekt aplikacja.
+        
+        Plik musi być w głównej ścieżce klas tego jara. Jest to konwencja
+        springa. Trzymanie sie jej pozwala na dostep do kontekstow innych 
+        aplikacji (np. podstawowe beany soa).
+    -->
+
+    <bean id="pl.com.dbs.reports.client.auchan" class="org.springframework.context.support.ClassPathXmlApplicationContext">
+        <constructor-arg ref="pl.com.dbs.reports.client.auchan.config" />
+        <!-- constructor-arg>
+            <bean class="...">
+            </bean>
+        </constructor-arg-->
+    </bean>
+
+
+    <bean id="pl.com.dbs.reports.client.auchan.config" class="java.util.ArrayList">
+        <constructor-arg>
+            <list>
+                <value>pl/com/dbs/reports/client/auchan/app-context.xml</value>
+                <value>pl/com/dbs/reports/client/auchan/app-infrastructure-jpa-context.xml</value>
+            </list>
+        </constructor-arg>
+    </bean>
+</beans>
