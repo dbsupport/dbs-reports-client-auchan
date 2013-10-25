@@ -31,7 +31,7 @@
 		<slf4j.log4j12.version>1.5.2</slf4j.log4j12.version>
 		<validation.api.version>1.0.0.GA</validation.api.version>
 	    <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
-		<oracle.version>10.2.0.2.00</oracle.version>
+		<oracle.version>11.2.0</oracle.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 
@@ -40,14 +40,9 @@
 			<!-- Custom -->
 			<dependency>
 				<groupId>pl.com.dbs</groupId>
-				<artifactId>dbs-reports-api-inner</artifactId>
+				<artifactId>dbs-reports-api</artifactId>
 				<version>${dbs.reports.api.version}</version>
 			</dependency>		
-			<dependency>
-				<groupId>pl.com.dbs</groupId>
-				<artifactId>dbs-reports-api-outer</artifactId>
-				<version>${dbs.reports.api.version}</version>
-			</dependency>
 					
 			<!-- Common -->
 			<dependency>
@@ -153,7 +148,7 @@
 			<!-- Drivers -->
 			<dependency>
 				<groupId>com.oracle</groupId>
-				<artifactId>oracle</artifactId>
+				<artifactId>ojdbc6</artifactId>
 				<version>${oracle.version}</version>
 			</dependency>
             	        
