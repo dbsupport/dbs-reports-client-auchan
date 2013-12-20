@@ -14,16 +14,4 @@
     
     <context:annotation-config />
     
-    <!-- aop:config>
-        <aop:pointcut id="logMetodaWykonaniePunktPrzeciecia"
-            expression="execution(* pl.com.dbs.reports..*.*(..))" />
-
-        <aop:aspect ref="logMetodaWykonanieAspekt">
-            <aop:around pointcut-ref="logMetodaWykonaniePunktPrzeciecia" method="wykonaj" />
-        </aop:aspect>
-     
-    </aop:config>
-    
-    <bean id="logMetodaWykonanieAspekt" class="pl.com.dbs.reports..." /-->
-    
 </beans>

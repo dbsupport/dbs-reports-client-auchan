@@ -7,9 +7,10 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
+import pl.com.dbs.reports.api.report.ReportFactory;
 import pl.com.dbs.reports.api.report.pattern.Pattern;
 import pl.com.dbs.reports.api.report.pattern.PatternFactory;
-import pl.com.dbs.reports.api.report.pattern.PatternFactoryContext;
+import pl.com.dbs.reports.api.report.pattern.PatternProduceContext;
 import pl.com.dbs.reports.api.report.pattern.PatternValidationException;
 
 /**
@@ -28,8 +29,14 @@ public class PatternFactoryAuchan implements PatternFactory {
 	}
 
 	@Override
-	public Pattern produce(PatternFactoryContext context) throws PatternValidationException {
+	public Pattern produce(PatternProduceContext context) throws PatternValidationException {
 		logger.info("DUMMY AUCHAN PATTERN FACTORY");
+		return null;
+	}
+
+	@Override
+	public ReportFactory getReportFactory() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -39,7 +39,7 @@ public class AuchanSecurityService implements SecurityService {
 	public SecurityUser authenticate(final SecurityContext context) throws SecurityAuthenticatinException {
 		final String sql1 = "SELECT cdutil, cdprpo, liutil FROM uc10 WHERE cdutil = '" + context.getLogin() + "' AND cdpass = '" + context.getPassword() + "'";
 		try {
-			final ResultSet result1 = executor.execute(sql1);
+			final ResultSet result1 = executor.execute(context.getConnectionContext(), sql1);
 			
 			if (result1 ==null) return null;
 			//if (result.isClosed()) return null;
@@ -53,7 +53,7 @@ public class AuchanSecurityService implements SecurityService {
 		    if (!StringUtils.isBlank(pprofile)) {
 		    	//..select profiles..
 		    	final String sql2 = "SELECT CDPROF, ZOSQLM FROM pf30 WHERE CDPROF = '" + pprofile + "'";
-		    	final ResultSet result2 = executor.execute(sql2);
+		    	final ResultSet result2 = executor.execute(context.getConnectionContext(), sql2);
 		    	while(result2.next()) {
 		    		final String aname = StringUtils.trim(result2.getString(1));
 		    		final String ameta = StringUtils.trim(result2.getString(2));

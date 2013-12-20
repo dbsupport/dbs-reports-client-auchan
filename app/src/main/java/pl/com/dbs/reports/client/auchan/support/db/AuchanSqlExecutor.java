@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pl.com.dbs.reports.api.support.db.ConnectionContext;
 import pl.com.dbs.reports.api.support.db.SqlExecuteException;
 import pl.com.dbs.reports.api.support.db.SqlExecutor;
 
@@ -24,12 +25,16 @@ import pl.com.dbs.reports.api.support.db.SqlExecutor;
 @Service
 public class AuchanSqlExecutor implements SqlExecutor {
 	private static final Logger logger = Logger.getLogger(AuchanSqlExecutor.class);
+	private Connector connector;
 	
-	@Autowired private Connector connector;
+	@Autowired 
+	public AuchanSqlExecutor(Connector connector) {
+		this.connector = connector;
+	}
 	
 	@Override
-	public ResultSet execute(final String sql) throws ClassNotFoundException, SQLException, SqlExecuteException {
-		Connection connection = connector.connect();
+	public ResultSet execute(final ConnectionContext context, final String sql) throws ClassNotFoundException, SQLException, SqlExecuteException {
+		Connection connection = connector.connect(context);
 		
 		connection.setAutoCommit(false);
 	    Statement stmt = connection.createStatement();
