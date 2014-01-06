@@ -14,18 +14,18 @@ import pl.com.dbs.reports.api.report.pattern.PatternProduceContext;
 import pl.com.dbs.reports.api.report.pattern.PatternValidationException;
 
 /**
- * TODO
+ * Just dummy factory to prove it can exist.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
  * @coptyright (c) 2013
  */
 @Service("report.pattern.factory.auchan")
-public class PatternFactoryAuchan implements PatternFactory {
-	private static final Log logger = LogFactory.getLog(PatternFactoryAuchan.class);
+public class AuchanPatternFactory implements PatternFactory {
+	private static final Log logger = LogFactory.getLog(AuchanPatternFactory.class);
 
 	@Override
 	public String getName() {
-		return PatternFactoryAuchan.class.getCanonicalName();
+		return AuchanPatternFactory.class.getCanonicalName();
 	}
 
 	@Override
