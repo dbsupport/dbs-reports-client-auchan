@@ -43,16 +43,16 @@ public class AuchanProfileService implements ClientProfileService {
 		final List<Object> params = new LinkedList<Object>();
 		//..if login/passwd provide - uery for single result..
 		if (!StringUtils.isBlank(filter.getLogin())) {
-			SQL = "SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE TRIM(CDUTIL) = ? AND TRIM(CDPASS) = ?";
+			SQL = "SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE UPPER(TRIM(CDUTIL)) = UPPER(?) AND UPPER(TRIM(CDPASS)) = UPPER(?)";
 			params.add(filter.getLogin());
 			params.add(filter.getPasswd());
 		} else if (filter.getUuid()!=null&&filter.getMax()!=null) {
 			//..if uuid/max provided - crop results..
-			SQL = "SELECT CDUTIL, CDPRPO, LIUTIL FROM (SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE TRIM(CDUTIL) > ? ORDER BY CDUTIL ASC) WHERE ROWNUM <= ? ORDER BY ROWNUM";
+			SQL = "SELECT CDUTIL, CDPRPO, LIUTIL FROM (SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE UPPER(TRIM(CDUTIL)) > UPPER(?) ORDER BY CDUTIL ASC) WHERE ROWNUM <= ? ORDER BY ROWNUM";
 			params.add(filter.getUuid());
 			params.add(filter.getMax());
 		} else if (filter.getUuid()!=null&&filter.getMax()==null) {
-			SQL = "SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE TRIM(CDUTIL) > ? ORDER BY CDUTIL ASC";
+			SQL = "SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 WHERE UPPER(TRIM(CDUTIL)) > UPPER(?) ORDER BY CDUTIL ASC";
 			params.add(filter.getUuid());
 		} else if (filter.getUuid()==null&&filter.getMax()!=null) {
 			SQL = "SELECT CDUTIL, CDPRPO, LIUTIL FROM (SELECT TRIM(CDUTIL) CDUTIL, TRIM(CDPRPO) CDPRPO, TRIM(LIUTIL) LIUTIL FROM UC10 ORDER BY CDUTIL ASC) WHERE ROWNUM <= ? ORDER BY ROWNUM";
@@ -117,13 +117,14 @@ public class AuchanProfileService implements ClientProfileService {
 	@SuppressWarnings("unchecked")
 	private List<ClientProfileAuthority> queryAuthorities(final String profile) throws DataAccessException {
 		if (StringUtils.isBlank(profile)) return new ArrayList<ClientProfileAuthority>();
-			logger.debug("Auchan querying for authorities..");
-	    	//..select profiles..
-			return (List<ClientProfileAuthority>)executor.execute("SELECT CDPROF, ZOSQLM FROM PF30 WHERE CDPROF = ?", new Object[]{profile}, new RowMapper<ClientProfileAuthority>() {
+			final List<Object> params = new LinkedList<Object>();
+			params.add(profile);
+			
+			return (List<ClientProfileAuthority>)executor.execute("SELECT CDPROF, ZOSQLM FROM PF30 WHERE CDSTDO = 'ZA' AND TRIM(CDPROC) IS NULL AND TRIM(CDPROS) IS NULL AND TRIM(CDPROF) = ?", params.toArray(), new RowMapper<ClientProfileAuthority>() {
 				@Override
 				public ClientProfileAuthority mapRow(ResultSet rs, int rowNum) throws SQLException {
 					final String aname = StringUtils.trim(rs.getString(1));
-					final String ameta = StringUtils.trim(rs.getString(2));
+					final String ameta = StringUtils.trim(rs.getString(2)).replace("'", "''"); 
 					return new ClientProfileAuthority() {
 						@Override
 						public String getName() {
@@ -144,11 +145,11 @@ public class AuchanProfileService implements ClientProfileService {
 		private static final String UNDEFINED = "brak";
 		private String firstname = UNDEFINED;
 		private String lastname = UNDEFINED;
+		private final java.util.regex.Pattern NAME_PATTERN = java.util.regex.Pattern.compile("^.*;(.*)$",  java.util.regex.Pattern.CASE_INSENSITIVE);
 		
 		ClientProfileNameConverter(String value) {
 			if (StringUtils.isBlank(value)) return;
 				
-			final java.util.regex.Pattern NAME_PATTERN = java.util.regex.Pattern.compile("^.*;(.*)$",  java.util.regex.Pattern.CASE_INSENSITIVE);
 			Matcher m = NAME_PATTERN.matcher(value);
 			if (m.find()) {
 			   	String names = StringUtils.trim(m.group(1));
