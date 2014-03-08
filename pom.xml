@@ -11,7 +11,7 @@
 		<name>DataBase Support</name>
 		<url>http://www.dbs.com.pl/</url>
 	</organization>
-	<version>auchan-1.0.0</version>
+	<version>auchan-1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
@@ -19,7 +19,7 @@
   </modules>
 
 	<properties>
-		<dbs.reports.api.version>1.0.0</dbs.reports.api.version>
+		<dbs.reports.api.version>1.0.0-SNAPSHOT</dbs.reports.api.version>
 	
 		<commons.version>2.3</commons.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
