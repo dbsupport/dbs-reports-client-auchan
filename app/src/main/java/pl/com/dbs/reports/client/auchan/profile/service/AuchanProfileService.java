@@ -22,6 +22,7 @@ import pl.com.dbs.reports.api.profile.ClientProfileAuthority;
 import pl.com.dbs.reports.api.profile.ClientProfileFilter;
 import pl.com.dbs.reports.api.profile.ClientProfileService;
 import pl.com.dbs.reports.api.support.db.SqlExecutor;
+import pl.com.dbs.reports.api.support.db.SqlExecutorContext;
 
 /**
  * Auchan profiles service.
@@ -69,7 +70,8 @@ public class AuchanProfileService implements ClientProfileService {
 	@SuppressWarnings({ "unchecked" })
 	private List<ClientProfile> queryProfiles(final String sql, final Object[] params) throws DataAccessException {
 		logger.debug("Auchan querying for profiles..");
-		return (List<ClientProfile>)executor.execute(sql, params, new RowMapper<ClientProfile>() {
+		
+		return (List<ClientProfile>)executor.execute(new SqlExecutorContext<ClientProfile>(sql, params, new RowMapper<ClientProfile>() {
 			@Override
 			public ClientProfile mapRow(ResultSet rs, int rowNum) throws SQLException {
 				final String pid = StringUtils.trim(rs.getString(1));
@@ -110,7 +112,7 @@ public class AuchanProfileService implements ClientProfileService {
 					}
 				};
 			}
-		});
+		}));
 		
 	}
 	
@@ -120,7 +122,10 @@ public class AuchanProfileService implements ClientProfileService {
 			final List<Object> params = new LinkedList<Object>();
 			params.add(profile);
 			
-			return (List<ClientProfileAuthority>)executor.execute("SELECT CDPROF, ZOSQLM FROM PF30 WHERE CDSTDO = 'ZA' AND TRIM(CDPROC) IS NULL AND TRIM(CDPROS) IS NULL AND TRIM(CDPROF) = ?", params.toArray(), new RowMapper<ClientProfileAuthority>() {
+			return (List<ClientProfileAuthority>)executor.execute(new SqlExecutorContext<ClientProfileAuthority>(
+					"SELECT CDPROF, ZOSQLM FROM PF30 WHERE CDSTDO = 'ZA' AND TRIM(CDPROC) IS NULL AND TRIM(CDPROS) IS NULL AND TRIM(CDPROF) = ?", 
+					params.toArray(), 
+					new RowMapper<ClientProfileAuthority>() {
 				@Override
 				public ClientProfileAuthority mapRow(ResultSet rs, int rowNum) throws SQLException {
 					final String aname = StringUtils.trim(rs.getString(1));
@@ -135,7 +140,7 @@ public class AuchanProfileService implements ClientProfileService {
 							return ameta;
 						}
 		    		};
-				}});
+				}}));
 	}
 	
 	/**
