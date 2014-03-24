@@ -33,7 +33,8 @@ import pl.com.dbs.reports.api.support.db.SqlExecutorContext;
 @Service
 public class AuchanProfileService implements ClientProfileService {
 	private static final Logger logger = Logger.getLogger(AuchanProfileService.class);
-	@Autowired private SqlExecutor executor;
+	@Autowired private SqlExecutor<ClientProfile> executor1;
+	@Autowired private SqlExecutor<ClientProfileAuthority> executor2;
 	
 	/* (non-Javadoc)
 	 * @see pl.com.dbs.reports.api.profile.ClientProfileService#find()
@@ -67,11 +68,10 @@ public class AuchanProfileService implements ClientProfileService {
 		return queryProfiles(SQL, params.toArray());
 	}	
 	
-	@SuppressWarnings({ "unchecked" })
 	private List<ClientProfile> queryProfiles(final String sql, final Object[] params) throws DataAccessException {
 		logger.debug("Auchan querying for profiles..");
 		
-		return (List<ClientProfile>)executor.execute(new SqlExecutorContext<ClientProfile>(sql, params, new RowMapper<ClientProfile>() {
+		return (List<ClientProfile>)executor1.query(new SqlExecutorContext<ClientProfile>(sql, params, new RowMapper<ClientProfile>() {
 			@Override
 			public ClientProfile mapRow(ResultSet rs, int rowNum) throws SQLException {
 				final String pid = StringUtils.trim(rs.getString(1));
@@ -116,13 +116,12 @@ public class AuchanProfileService implements ClientProfileService {
 		
 	}
 	
-	@SuppressWarnings("unchecked")
 	private List<ClientProfileAuthority> queryAuthorities(final String profile) throws DataAccessException {
 		if (StringUtils.isBlank(profile)) return new ArrayList<ClientProfileAuthority>();
 			final List<Object> params = new LinkedList<Object>();
 			params.add(profile);
 			
-			return (List<ClientProfileAuthority>)executor.execute(new SqlExecutorContext<ClientProfileAuthority>(
+			return (List<ClientProfileAuthority>)executor2.query(new SqlExecutorContext<ClientProfileAuthority>(
 					"SELECT CDPROF, ZOSQLM FROM PF30 WHERE CDSTDO = 'ZA' AND TRIM(CDPROC) IS NULL AND TRIM(CDPROS) IS NULL AND TRIM(CDPROF) = ?", 
 					params.toArray(), 
 					new RowMapper<ClientProfileAuthority>() {

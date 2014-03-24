@@ -40,7 +40,7 @@ public class AuchanSqlExecutor<T> implements SqlExecutor<T> {
 	private ClientDataSource datasource;
 
 	@Override
-	public List<T> execute(final SqlExecutorContext<T> context) throws DataAccessException {
+	public List<T> query(final SqlExecutorContext<T> context) throws DataAccessException {
 		Validate.notNull(context, "context is null");
 		Validate.notNull(context.getSql(), "sql is null");
 		Validate.notNull(context.getMapper(), "mapper is null");
@@ -76,11 +76,19 @@ public class AuchanSqlExecutor<T> implements SqlExecutor<T> {
 		});					
 	}
 	
-	public List<Map<String, Object>> execute(final String sql, final Object[] params) throws DataAccessException {
+	@Override
+	public List<Map<String, Object>> query(final String sql, final Object[] params) throws DataAccessException {
 		logger.debug("Querying Auchan(): "+sql);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
 		return jdbcTemplate.queryForList(sql, params);
 	}
+
+	@Override
+	public void update(final String sql, final Object[] params) throws DataAccessException {
+		logger.debug("Updating Auchan(): "+sql);
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
+		jdbcTemplate.update(sql, params);
+	}	
 	
 	private PreparedStatementCreator buildPreparedStatement(final String sql, final Object[] params) {
 		return new PreparedStatementCreator() {

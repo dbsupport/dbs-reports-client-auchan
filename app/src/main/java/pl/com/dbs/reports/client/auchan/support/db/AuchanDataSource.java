@@ -24,6 +24,8 @@ import pl.com.dbs.reports.api.support.db.ConnectionContext;
  * http://infotechinspiration.blogspot.com/2012/07/how-to-unlock-hr-schema-in-oracle.html
  * mvn install:install-file -Dfile=ojdbc6.jar -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar
  * 
+ * select value from nls_database_parameters where parameter='NLS_CHARACTERSET'
+ * 
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
  * @coptyright (c) 2013
  */
