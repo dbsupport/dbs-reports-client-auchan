@@ -34,6 +34,10 @@ public class AuchanDataSource implements ClientDataSource {
 	private static final Logger logger = Logger.getLogger(AuchanDataSource.class);
 	private DataSource datasource;
 	
+	public AuchanDataSource() {
+		logger.info("auchan ds");
+	}
+	
 	/**
 	 * Make new target datasource.
 	 */
@@ -53,7 +57,8 @@ public class AuchanDataSource implements ClientDataSource {
 		ds.setMinEvictableIdleTimeMillis(120000);
 		ds.setTestOnBorrow(true);
 		ds.setTimeBetweenEvictionRunsMillis(120000);
-		ds.setMinIdle(30);
+		ds.setMaxActive(context.getMaxActive());
+		
 //		if (!StringUtils.isBlank(context.getCharacterEncoding())) {
 //			/**
 //			 * http://stackoverflow.com/questions/5296257/how-to-convert-characterset-of-column-in-oracle
