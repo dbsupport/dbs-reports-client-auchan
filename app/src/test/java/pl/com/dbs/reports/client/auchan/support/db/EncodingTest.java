@@ -12,7 +12,7 @@ import org.junit.Test;
  * TODO
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2014
+ * @copyright (c) 2014
  */
 public class EncodingTest {
 	private static final String xmlstring = "Zarzuć gęślą jaźń";//"Здравей' хора";

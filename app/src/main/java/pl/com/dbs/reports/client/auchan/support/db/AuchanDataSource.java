@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import javax.sql.DataSource;
 
 import org.apache.commons.dbcp.BasicDataSource;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import pl.com.dbs.reports.api.support.db.ClientDataSource;
@@ -27,11 +28,11 @@ import pl.com.dbs.reports.api.support.db.ConnectionContext;
  * select value from nls_database_parameters where parameter='NLS_CHARACTERSET'
  * 
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 @Component(ClientDataSource.DATASOURCE)
 public class AuchanDataSource implements ClientDataSource {
-	private static final Logger logger = Logger.getLogger(AuchanDataSource.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuchanDataSource.class);
 	private DataSource datasource;
 	
 	public AuchanDataSource() {

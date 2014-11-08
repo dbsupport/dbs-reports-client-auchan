@@ -11,7 +11,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,11 +29,11 @@ import pl.com.dbs.reports.api.support.db.SqlExecutorContext;
  * Auchan profiles service.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 @Service
 public class AuchanProfileService implements ClientProfileService {
-	private static final Logger logger = Logger.getLogger(AuchanProfileService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuchanProfileService.class);
 	@Autowired private SqlExecutor<ClientProfile> executor1;
 	@Autowired private SqlExecutor<ClientProfileAuthority> executor2;
 	

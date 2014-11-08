@@ -11,9 +11,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
@@ -32,11 +33,11 @@ import pl.com.dbs.reports.client.auchan.support.tech.Separator;
  * Auchan AD service.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2014
+ * @copyright (c) 2014
  */
 @Service
 public class AuchanActiveDirectoryService implements ClientActiveDirectoryService {
-	private static final Logger logger = Logger.getLogger(AuchanActiveDirectoryService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuchanActiveDirectoryService.class);
 	@Autowired private SqlExecutor<ClientActiveDirectoryProfile> executor1;
 	@Autowired private SqlExecutor<List<Map<String, String>>> executor2;
 	

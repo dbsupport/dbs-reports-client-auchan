@@ -7,7 +7,7 @@ package pl.com.dbs.reports.client.auchan.support.tech;
  * http://ssdl-wiki.cs.technion.ac.il/wiki/index.php/Class_Separator
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 public final class Separator {
     private final String s;

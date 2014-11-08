@@ -17,7 +17,7 @@ import pl.com.dbs.reports.api.report.pattern.PatternValidationException;
  * Just dummy factory to prove it can exist.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 @Service("report.pattern.factory.auchan")
 public class AuchanPatternFactory implements PatternFactory {

@@ -12,7 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;
@@ -31,11 +32,11 @@ import pl.com.dbs.reports.api.support.db.SqlExecutorContext;
  * Just connect to JDBC and run SQLs.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 @Service
 public class AuchanSqlExecutor<T> implements SqlExecutor<T> {
-	private static final Logger logger = Logger.getLogger(AuchanSqlExecutor.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuchanSqlExecutor.class);
 	@Autowired @Qualifier(ClientDataSource.DATASOURCE)
 	private ClientDataSource datasource;
 
@@ -48,17 +49,17 @@ public class AuchanSqlExecutor<T> implements SqlExecutor<T> {
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
 		
 		if (!context.hasPaging()) {
-			logger.debug("Querying Auchan(without paging)");
+			logger.info("sql:{}, params:{}", context.getSql(), context.getParams());
 			return jdbcTemplate.query(buildPreparedStatement(context.getSql(), context.getParams()), context.getMapper());
-		}
+		} 
 		
-		logger.debug("Querying Auchan(with paging):"+context.getSql());
 		Integer counter = jdbcTemplate.queryForInt(context.getCounterSql(), context.getParams());
 		Validate.notNull(counter, "counter is null");
 
 		final ClientQueryFilter filter = context.getFilter();
 		final ClientQueryPager pager = filter.getPager();
 		pager.setDataSize(counter);
+		logger.info("sql:{}, params:{}, pager.offset:{}, pager.size:{}", context.getSql(), context.getParams(), pager.getDataStart(), pager.getPageSize());
 		
 		jdbcTemplate = new JdbcTemplate(datasource);
 		return jdbcTemplate.query(context.getSql(), context.getParams(),
@@ -78,14 +79,14 @@ public class AuchanSqlExecutor<T> implements SqlExecutor<T> {
 	
 	@Override
 	public List<Map<String, Object>> query(final String sql, final Object[] params) throws DataAccessException {
-		logger.debug("Querying Auchan(): "+sql);
+		logger.info("sql:{}, params:{}",sql, params);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
 		return jdbcTemplate.queryForList(sql, params);
 	}
 
 	@Override
 	public void update(final String sql, final Object[] params) throws DataAccessException {
-		logger.debug("Updating Auchan(): "+sql);
+		logger.info("sql:{}, params:{}", sql, params);
 		JdbcTemplate jdbcTemplate = new JdbcTemplate(datasource);
 		jdbcTemplate.update(sql, params);
 	}	

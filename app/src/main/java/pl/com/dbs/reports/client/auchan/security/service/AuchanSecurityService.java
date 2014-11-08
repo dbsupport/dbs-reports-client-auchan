@@ -6,7 +6,8 @@ package pl.com.dbs.reports.client.auchan.security.service;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -22,11 +23,11 @@ import pl.com.dbs.reports.client.auchan.profile.service.AuchanProfileService;
  * Authenticates user in CLIENT database.
  *
  * @author Krzysztof Kaziura | krzysztof.kaziura@gmail.com | http://www.lazydevelopers.pl
- * @coptyright (c) 2013
+ * @copyright (c) 2013
  */
 @Service
 public class AuchanSecurityService implements SecurityService {
-	private static final Logger logger = Logger.getLogger(AuchanSecurityService.class);
+	private static final Logger logger = LoggerFactory.getLogger(AuchanSecurityService.class);
 	@Autowired private AuchanProfileService profileService;
 	
 	
